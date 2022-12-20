@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kurir;
-use Exception;
 use Illuminate\Http\Request;
+use App\Models\Kurir;
+use App\Http\Resources\KurirResource;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 
 class KurirController extends Controller
@@ -19,7 +20,7 @@ class KurirController extends Controller
         //get Kurir
         $kurir = Kurir::latest()->get();
         //render view with posts
-        return new Kurir(true, 'List Data Kurir', $kurir);
+        return new KurirResource(true, 'List Data Kurir', $kurir);
     }
 
     /**
