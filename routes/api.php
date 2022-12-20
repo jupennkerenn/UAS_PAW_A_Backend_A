@@ -22,3 +22,5 @@ Route::apiResource('/pengiriman_barangs',
 App\Http\Controllers\PengirimanBarangController::class);
 Route::apiResource('/laporan_keluhans', 
 App\Http\Controllers\LaporanKeluhanController::class);
+Route::apiResource('/kurirs', 
+App\Http\Controllers\KurirController::class);
