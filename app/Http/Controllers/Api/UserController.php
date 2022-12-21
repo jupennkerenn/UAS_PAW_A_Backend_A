@@ -18,6 +18,11 @@ class UserController extends Controller
                 'data' => $user
             ], 200);
         }
+
+        return response([
+            'message' => 'User Not Found',
+            'data' => null
+        ], 400);
     }
 
     public function update(Request $request, $id){
@@ -27,32 +32,26 @@ class UserController extends Controller
         if(is_null($user)){
             return response([
                 'message' => 'User Not Found',
-                'data' => $user
+                'data' => null
             ], 404);
         }
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
             'name' => 'required',
-            'password' => [
-                'required',
-                'string',
-                'min:8',            
-                'regex:/[a-z]/',     
-                'regex:/[A-Z]/',     
-                'regex:/[0-9]/',     
-                'regex:/[@$!%*#?&]/' 
-            ],
+            'email' => 'required|email:rfc,dns|unique:users',
         ]);
 
         if($validate->fails())
-            return response(['message' => $validate->errors()], 400);
+            return response()->json($validate->errors(), 400);
         
+            $updateData['password'] = bcrypt($request->password);
             $user->name = $updateData['name'];
-            $user->password = $updateData['password'];
+            $user->email = $updateData['email'];   
+            
         
         if($user->save()){
-            return response([
+            return response()->json([
                 'message' => 'Update User Success',
                 'data' => $user
             ], 200);

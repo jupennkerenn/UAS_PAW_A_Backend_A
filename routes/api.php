@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -27,3 +27,9 @@ Route::apiResource('/laporan_keluhans',
 App\Http\Controllers\LaporanKeluhanController::class);
 Route::apiResource('/kurirs', 
 App\Http\Controllers\KurirController::class);
+
+Route::group(['middleware'=>'auth:api'],function(){
+    Route::post('user/{id}', 'Api\UserController@update');
+    Route::get('user/{id}', 'Api\UserController@show');
+    Route::post('logout','Api\AuthController@logout');
+});

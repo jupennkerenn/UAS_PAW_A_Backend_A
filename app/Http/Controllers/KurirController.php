@@ -6,6 +6,7 @@ use App\Models\Kurir;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\KurirResource;
 
 class KurirController extends Controller
 {

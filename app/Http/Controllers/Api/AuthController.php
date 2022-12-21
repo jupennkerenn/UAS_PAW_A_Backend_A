@@ -28,16 +28,17 @@ class AuthController extends Controller
          ]);
 
          if($validate->fails())    
-            return response(['message' => $validate->errors()], 400);  
+            return response()->json($validate->errors(), 400);  
 
         $registrationData['password'] = bcrypt($request->password); 
 
         $user = User::create($registrationData); 
 
-        return response([
+        return response()->json([
+            'success' => true,
             'message' => 'Register Success',
             'user' => $user
-        ], 200);
+        ]);
     }
 
     public function login (Request $request){
@@ -49,15 +50,16 @@ class AuthController extends Controller
         ]);
 
         if($validate->fails())    
-            return response(['message' => $validate->errors()], 400);   
+            return response()->json($validate->errors(), 400);   
  
         if(!Auth::attempt($loginData))    
-            return response(['message' => 'Invalid Credentials'], 401);  
+            return response(['invalid' => true,'message'=>'Invalid Credentials'], 401);  
 
         $user = Auth::user();
         $token = $user->createToken('Authentication Token')->accessToken; 
 
-        return response([
+        return response()->json([
+            'success' => true,
             'message' => 'Authenticated',
             'user' => $user,
             'token_type' => 'Bearer',
@@ -69,7 +71,8 @@ class AuthController extends Controller
     public function logout(Request $request) {
         $user = Auth::user()->token();
         $user->revoke();
-        return response([
+        return response()->json([
+            'success' => true,
             'message' => 'Logout Success',
         ]);
     }
