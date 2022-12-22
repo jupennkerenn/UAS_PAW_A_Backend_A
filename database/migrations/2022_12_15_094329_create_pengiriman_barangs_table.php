@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nama_barang');
             $table->string('nama_pengirim');
             $table->string('telp_pengirim');
-            $table->float('berat_barang');
+            $table->double('berat_barang');
             $table->string('jenis_barang');
             $table->string('kota_asal');
             $table->string('kota_tujuan');
